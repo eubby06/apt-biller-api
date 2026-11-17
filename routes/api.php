@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::get('/tenants', [TenantController::class, 'index']);
     Route::get('/tenants/{tenant}', [TenantController::class, 'show']);
-
+    Route::put('/tenants/{tenant}', [TenantController::class, 'update']);
     Route::post('/tenants', [TenantController::class, 'store']);
 });

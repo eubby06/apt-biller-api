@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TenantController extends Controller
 {
@@ -58,9 +59,20 @@ class TenantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tenant $tenant)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', Rule::unique('tenants', 'name')->ignore($tenant->id)],
+           'unit' => ['required', 'integer'],
+            'total_heads' => ['required', 'integer'],
+            'rent_amount' => ['required', 'integer'],
+            'internet_plan' => ['required'],
+            'move_in_date' => ['required', 'date']
+        ]);
+
+        $tenant->update($validated);
+
+        return response()->json($tenant, 201);
     }
 
     /**
