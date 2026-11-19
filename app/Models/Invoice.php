@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'tenant_id',
@@ -23,4 +24,12 @@ use Illuminate\Database\Eloquent\Model;
     'total',
     'status',
 ])]
-class Invoice extends Model {}
+class Invoice extends Model {
+    /**
+     *Get the tenants for the invoice.
+     */
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+}

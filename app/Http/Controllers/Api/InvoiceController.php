@@ -18,9 +18,9 @@ class InvoiceController extends Controller
         $date = Carbon::today();
 
         if ($request->has('tenant_id')) {
-            $invoices = Invoice::where('tenant_id', $request->get('tenant_id'))->get();
+            $invoices = Invoice::where('tenant_id', $request->get('tenant_id'))->with('tenant')->get();
         } else {
-            $invoices = Invoice::all();
+            $invoices = Invoice::with('tenant')->get();
         }
 
         // Return the array directly (Laravel handles JSON conversion)
