@@ -106,16 +106,33 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
+        $invoice->prev_date = $request->get('prev_date');
+        $invoice->prev_reading = $request->get('prev_reading');
+        $invoice->curr_date = $request->get('curr_date');
+        $invoice->curr_reading = $request->get('curr_reading');
+        $invoice->status = $request->get('status');
+        $invoice->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $invoice,
+        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Invoice $invoice)
     {
-        //
+        $id = $invoice->id;
+
+        $invoice->delete();
+
+        return response()->json([
+            'success' => true,
+            'data' => ['id' => $id],
+        ], 201);
     }
 }
