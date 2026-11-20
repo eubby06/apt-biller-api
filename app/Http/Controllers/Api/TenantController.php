@@ -78,8 +78,15 @@ class TenantController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tenant $tenant)
     {
-        //
+        $id = $tenant->id;
+
+        $tenant->delete();
+
+        return response()->json([
+            'success' => true,
+            'data' => ['id' => $id]
+        ]);
     }
 }

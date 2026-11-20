@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tenants', [TenantController::class, 'index']);
     Route::get('/tenants/{tenant}', [TenantController::class, 'show']);
     Route::put('/tenants/{tenant}', [TenantController::class, 'update']);
+    Route::delete('/tenants/{tenant}', [TenantController::class, 'destroy']);
     Route::post('/tenants', [TenantController::class, 'store']);
 });

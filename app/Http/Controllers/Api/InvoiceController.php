@@ -51,7 +51,8 @@ class InvoiceController extends Controller
             'prev_date' => ['required', 'date'],
             'prev_reading' => ['required', 'integer', 'min:0'],
             'curr_date' => ['required', 'date', 'after_or_equal:prev_date'],
-            'curr_reading' => ['required', 'integer', 'min:0']
+            'curr_reading' => ['required', 'integer', 'min:0'],
+            'status' => ['required', 'string']
         ]);
 
         $prevReading = (int) $request->get('prev_reading');
@@ -60,7 +61,7 @@ class InvoiceController extends Controller
         $rentAmount = (int) $tenant->rent_amount;
         $electricityAmount = $readingDifference * (int) config('rates.electricity');
         $waterAmount = (int) $tenant->total_heads * (int) config('rates.water');
-
+        $status = $request->get('status');
         $internetAmount = match ($tenant->internet_plan) {
             'low_speed' => (int) config('rates.internet_lowspeed'),
             'high_speed' => (int) config('rates.internet_highspeed'),
@@ -83,7 +84,7 @@ class InvoiceController extends Controller
             'rent_amount' => $tenant->rent_amount,
             'internet_amount' => $internetAmount,
             'total' => $total,
-            'status' => 'pending'
+            'status' => $status
         ]);
 
         return response()->json([
